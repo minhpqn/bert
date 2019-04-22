@@ -443,7 +443,8 @@ class IntentProcessor(DataProcessor):
         for e in examples:
             labels.append(e.label)
         labels = np.unique(labels)
-        return labels.tolist()
+        labels = sorted(labels.tolist())
+        return labels
 
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
