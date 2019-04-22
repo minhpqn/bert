@@ -190,7 +190,7 @@ class DataProcessor(object):
         """Gets a collection of `InputExample`s for prediction."""
         raise NotImplementedError()
 
-    def get_labels(self):
+    def get_labels(self, data_dir=None):
         """Gets the list of labels for this data set."""
         raise NotImplementedError()
 
@@ -257,7 +257,7 @@ class XnliProcessor(DataProcessor):
           InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
     return examples
 
-  def get_labels(self):
+  def get_labels(self, data_dir=None):
     """See base class."""
     return ["contradiction", "entailment", "neutral"]
 
@@ -281,7 +281,7 @@ class MnliProcessor(DataProcessor):
     return self._create_examples(
         self._read_tsv(os.path.join(data_dir, "test_matched.tsv")), "test")
 
-  def get_labels(self):
+  def get_labels(self, data_dir=None):
     """See base class."""
     return ["contradiction", "entailment", "neutral"]
 
@@ -321,7 +321,7 @@ class MrpcProcessor(DataProcessor):
     return self._create_examples(
         self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
 
-  def get_labels(self):
+  def get_labels(self, data_dir=None):
     """See base class."""
     return ["0", "1"]
 
@@ -361,7 +361,7 @@ class ColaProcessor(DataProcessor):
     return self._create_examples(
         self._read_tsv(os.path.join(data_dir, "test.tsv")), "test")
 
-  def get_labels(self):
+  def get_labels(self, data_dir=None):
     """See base class."""
     return ["0", "1"]
 
@@ -903,7 +903,7 @@ def main(_):
 
   processor = processors[task_name]()
 
-  label_list = processor.get_labels()
+  label_list = processor.get_labels(FLAGS.data_dir)
 
   tokenizer = tokenization.FullTokenizer(
       vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
